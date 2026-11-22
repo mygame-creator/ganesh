@@ -40,7 +40,7 @@ const initialItems=[
 {id:"a8",name:"Adapter",category:"Accessories",price:75,unit:"per piece",stock:"Available",icon:"🔌"}
 ];
 const key="sriGaneshWholesaleItems";
-let items;try{items=JSON.parse(localStorage.getItem(key))||initialItems}catch{items=initialItems}
+let items;try{const saved=JSON.parse(localStorage.getItem(key));items=Array.isArray(saved)&&saved.length?saved:initialItems}catch{items=initialItems}
 let activeCategory="All";
 const grid=document.getElementById("productGrid"),cats=document.getElementById("categories"),search=document.getElementById("search");
 const money=n=>"₹"+Number(n).toLocaleString("en-IN",{maximumFractionDigits:2});\nfunction waLink(item){const msg=`Hi Sri Ganesh Electronics, I want to order: ${item.name} — ${money(item.price)} ${item.unit||"per piece"}. Please confirm availability and wholesale price.`;return "https://wa.me/919030625140?text="+encodeURIComponent(msg)}
@@ -52,14 +52,13 @@ search.addEventListener("input",render);
 const modal=document.getElementById("adminModal");
 document.getElementById("closeAdmin").onclick=()=>modal.classList.remove("show");
 modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("show")});
-// Hidden admin shortcut: type "vinod" within five seconds anywhere on the page.
+// Hidden admin shortcut: type vinod within five seconds. Works while page has keyboard focus.
 let adminTyped="",adminStarted=0;
 document.addEventListener("keydown",e=>{
- const target=e.target;
- if(e.ctrlKey||e.altKey||e.metaKey||e.key.length!==1||target?.isContentEditable||/INPUT|TEXTAREA|SELECT/.test(target?.tagName||""))return;
- const now=Date.now();
- if(!adminTyped||now-adminStarted>5000){adminTyped="";adminStarted=now}
- adminTyped=(adminTyped+e.key.toLowerCase()).slice(-5);
+ if(e.ctrlKey||e.altKey||e.metaKey||e.key.length!==1)return;
+ const now=Date.now(),ch=e.key.toLowerCase();
+ if(ch==="v"||!adminTyped||now-adminStarted>5000){adminTyped="";adminStarted=now}
+ adminTyped=(adminTyped+ch).slice(-5);
  if(adminTyped==="vinod"){adminTyped="";modal.classList.add("show")}
 },true);
 
