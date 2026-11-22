@@ -9,7 +9,7 @@
 :root{--ink:#17212b;--muted:#65717c;--line:#e4e8eb;--paper:#f6f7f8;--white:#fff;--orange:#e96b2c;--deep:#182631}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 Arial,Helvetica,sans-serif}a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}.wrap{width:min(1120px,92%);margin:auto}
 .top{background:var(--deep);color:#e8edf0;font-size:12px;padding:9px 0}.top .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-header{background:#fff;border-bottom:1px solid var(--line)}.head{display:flex;align-items:center;justify-content:space-between;padding:20px 0;gap:20px}.brand{display:flex;align-items:center;gap:12px}.mark{display:grid;place-items:center;background:var(--orange);color:white;width:44px;height:44px;border-radius:9px;font-weight:800;font-size:22px}.brand h1{font-size:20px;line-height:1.15;margin:0;font-weight:800;letter-spacing:-.4px}.brand small{display:block;color:var(--muted);font-size:12px;margin-top:4px}.headright{display:flex;align-items:center;gap:18px}.adminlink{font-weight:700;font-size:13px;color:#47515a}.call{background:var(--orange);color:#fff;padding:11px 16px;border-radius:6px;font-weight:700;font-size:13px}
+header{background:#fff;border-bottom:1px solid var(--line)}.head{display:flex;align-items:center;justify-content:space-between;padding:20px 0;gap:20px}.brand{display:flex;align-items:center;gap:12px}.mark{display:grid;place-items:center;background:var(--orange);color:white;width:44px;height:44px;border-radius:9px;font-weight:800;font-size:22px}.brand h1{font-size:20px;line-height:1.15;margin:0;font-weight:800;letter-spacing:-.4px}.brand small{display:block;color:var(--muted);font-size:12px;margin-top:4px}.headright{display:flex;align-items:center;gap:18px}.call{background:var(--orange);color:#fff;padding:11px 16px;border-radius:6px;font-weight:700;font-size:13px}
 .hero{padding:54px 0 36px;background:#fff}.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:30px;align-items:center}.eyebrow{color:var(--orange);font-weight:800;text-transform:uppercase;letter-spacing:1.5px;font-size:11px}.hero h2{font-size:clamp(32px,5vw,52px);line-height:1.06;letter-spacing:-1.7px;margin:13px 0 16px;max-width:620px}.hero p{color:var(--muted);max-width:520px;margin:0 0 24px}.hero-actions{display:flex;gap:10px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 17px;border-radius:6px;font-weight:700;font-size:13px}.btn.primary{background:var(--orange);color:white}.btn.secondary{background:#f0f2f3;color:#29343c}.hero-card{background:#f2f4f5;border-radius:12px;padding:26px;min-height:210px;display:flex;flex-direction:column;justify-content:space-between}.hero-card .big{font-size:34px;font-weight:800;letter-spacing:-1px}.hero-card p{font-size:13px;margin:8px 0 0}.hero-card .line{border-top:1px solid #dce1e4;padding-top:15px;color:#5f6b74;font-size:12px}
 section.products{padding:44px 0 60px}.sectionhead{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:22px}.sectionhead h3{margin:6px 0 0;font-size:28px;letter-spacing:-.8px}.sectionhead p{margin:0;color:var(--muted);font-size:13px}.search{width:min(260px,100%);border:1px solid var(--line);background:#fff;border-radius:6px;padding:11px 13px;outline:none}.categories{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}.chip{padding:8px 13px;border:1px solid var(--line);border-radius:30px;background:#fff;color:#5b6670;font-size:12px;font-weight:700}.chip.active{background:var(--deep);color:#fff;border-color:var(--deep)}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.product{background:#fff;border:1px solid var(--line);border-radius:9px;overflow:hidden;display:flex;flex-direction:column}.product-art{height:145px;background:#f1f3f4;display:grid;place-items:center;color:#a0a8ae;font-size:42px}.product-body{padding:15px;display:flex;flex-direction:column;flex:1}.product h4{font-size:15px;margin:0 0 5px}.product .sku{color:#9aa2a8;font-size:11px;margin-bottom:12px}.price{font-size:18px;font-weight:800;margin-top:auto}.price small{font-size:11px;color:var(--muted);font-weight:400}.stock{font-size:11px;color:#6d777f;margin:5px 0 13px}.product .btn{width:100%;padding:10px}.empty{padding:36px;background:#fff;border:1px dashed var(--line);text-align:center;color:var(--muted);border-radius:8px;grid-column:1/-1}
 .info{background:#fff;border-top:1px solid var(--line);padding:32px 0}.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}.info h4{margin:0 0 7px;font-size:13px}.info p{margin:0;color:var(--muted);font-size:13px}footer{background:var(--deep);color:#e8edf0;padding:24px 0;font-size:12px}.foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:#b9c3ca}
@@ -52,19 +52,16 @@ search.addEventListener("input",render);
 const modal=document.getElementById("adminModal");
 document.getElementById("closeAdmin").onclick=()=>modal.classList.remove("show");
 modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("show")});
-// Hidden admin shortcut: type "vinod" within five seconds, beginning with V.
+// Hidden admin shortcut: type "vinod" within five seconds anywhere on the page.
 let adminTyped="",adminStarted=0;
 document.addEventListener("keydown",e=>{
- if(e.ctrlKey||e.altKey||e.metaKey||e.key.length!==1||e.target.isContentEditable||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;
- const keyPressed=e.key.toLowerCase(),now=Date.now();
- if(keyPressed==="v"){adminTyped="v";adminStarted=now;return}
- if(!adminTyped)return;
- if(now-adminStarted>5000){adminTyped="";return}
- const expected="vinod";
- adminTyped+=keyPressed;
- if(!expected.startsWith(adminTyped)){adminTyped="";return}
- if(adminTyped===expected){adminTyped="";modal.classList.add("show")}
-});
+ const target=e.target;
+ if(e.ctrlKey||e.altKey||e.metaKey||e.key.length!==1||target?.isContentEditable||/INPUT|TEXTAREA|SELECT/.test(target?.tagName||""))return;
+ const now=Date.now();
+ if(!adminTyped||now-adminStarted>5000){adminTyped="";adminStarted=now}
+ adminTyped=(adminTyped+e.key.toLowerCase()).slice(-5);
+ if(adminTyped==="vinod"){adminTyped="";modal.classList.add("show")}
+},true);
 
 const form=document.getElementById("itemForm"),idEl=document.getElementById("itemId");
 function clearForm(){form.reset();idEl.value="";document.getElementById("saveItem").textContent="Add item"}
