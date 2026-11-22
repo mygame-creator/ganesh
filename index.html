@@ -65,7 +65,6 @@ function checkAdminKey(e){
  if(!"vinod".startsWith(adminTyped))adminTyped="";
 }
 window.addEventListener("keydown",checkAdminKey,true);
-window.addEventListener("keyup",checkAdminKey,true);
 
 const form=document.getElementById("itemForm"),idEl=document.getElementById("itemId");
 function clearForm(){form.reset();idEl.value="";document.getElementById("saveItem").textContent="Add item"}
