@@ -20,7 +20,7 @@ section.products{padding:44px 0 60px}.sectionhead{display:flex;justify-content:s
 </head>
 <body>
 <div class="top"><div class="wrap"><span>WHOLESALE ELECTRONICS • RETAIL & BULK ORDERS</span><span>Gujarati Galli, Hyderabad</span></div></div>
-<header><div class="wrap head"><a class="brand" href="#"><span class="mark">G</span><span><h1>Sri Ganesh Electronics</h1><small>Wholesale &amp; Electronic Supplies</small></span></a><div class="headright"><button class="adminlink" id="openAdmin">Admin panel ↗</button><a class="call" href="#contact">Visit our shop</a></div></div></header>
+<header><div class="wrap head"><a class="brand" href="#"><span class="mark">G</span><span><h1>Sri Ganesh Electronics</h1><small>Wholesale &amp; Electronic Supplies</small></span></a><div class="headright"><a class="call" href="#contact">Visit our shop</a></div></div></header>
 <main>
 <div class="hero"><div class="wrap hero-grid"><div><div class="eyebrow">Your local electronics wholesaler</div><h2>Good products.<br>Wholesale prices.</h2><p>Electronics and everyday accessories for shop owners, resellers and bulk buyers. Check our available items and contact us for quantity pricing.</p><div class="hero-actions"><a class="btn primary" href="#products">Browse items</a><a class="btn secondary" href="#contact">Shop location</a></div></div><div class="hero-card"><div><div class="eyebrow">Sri Ganesh Electronics</div><div class="big">Bulk buying<br>made simple.</div><p>Ask us about stock and wholesale rates.</p></div><div class="line">Gujarati Galli · Hyderabad</div></div></div></div>
 <section class="products" id="products"><div class="wrap"><div class="sectionhead"><div><div class="eyebrow">Product list</div><h3>Shop items</h3><p>Prices shown are indicative. Contact us for bulk rates.</p></div><input id="search" class="search" placeholder="Search items..." aria-label="Search items"></div><div id="categories" class="categories"></div><div id="productGrid" class="grid"></div></div></section>
@@ -49,7 +49,23 @@ function renderCategories(){let names=["All",...new Set(items.map(x=>x.category|
 function render(){renderCategories();let q=search.value.trim().toLowerCase();let shown=items.filter(x=>(activeCategory==="All"||x.category===activeCategory)&&(x.name+" "+x.category).toLowerCase().includes(q));grid.innerHTML=shown.length?shown.map(x=>'<article class="product"><div class="product-art">'+esc(x.icon||"▦")+'</div><div class="product-body"><h4>'+esc(x.name)+'</h4><div class="sku">'+esc(x.category||"General")+'</div><div class="price">'+money(x.price)+' <small>'+esc(x.unit||"per piece")+'</small></div><div class="stock">'+esc(x.stock||"Ask for availability")+'</div><a class="btn secondary" href="#contact">Enquire in shop</a></div></article>').join(""):'<div class="empty">No items found. Try another search.</div>';renderAdmin()}
 function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 search.addEventListener("input",render);
-const modal=document.getElementById("adminModal");document.getElementById("openAdmin").onclick=()=>modal.classList.add("show");document.getElementById("closeAdmin").onclick=()=>modal.classList.remove("show");modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("show")});
+const modal=document.getElementById("adminModal");
+document.getElementById("closeAdmin").onclick=()=>modal.classList.remove("show");
+modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("show")});
+// Hidden admin shortcut: type "vinod" within five seconds, beginning with V.
+let adminTyped="",adminStarted=0;
+document.addEventListener("keydown",e=>{
+ if(e.ctrlKey||e.altKey||e.metaKey||e.key.length!==1||e.target.isContentEditable||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;
+ const keyPressed=e.key.toLowerCase(),now=Date.now();
+ if(keyPressed==="v"){adminTyped="v";adminStarted=now;return}
+ if(!adminTyped)return;
+ if(now-adminStarted>5000){adminTyped="";return}
+ const expected="vinod";
+ adminTyped+=keyPressed;
+ if(!expected.startsWith(adminTyped)){adminTyped="";return}
+ if(adminTyped===expected){adminTyped="";modal.classList.add("show")}
+});
+
 const form=document.getElementById("itemForm"),idEl=document.getElementById("itemId");
 function clearForm(){form.reset();idEl.value="";document.getElementById("saveItem").textContent="Add item"}
 document.getElementById("resetForm").onclick=clearForm;
